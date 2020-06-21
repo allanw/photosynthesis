@@ -14,16 +14,17 @@ class ImgExtractor(Treeprocessor):
 	def __init__(self, doc):
 		self.md = doc
 		self.md.images = []
+		self.md.text = []
 
 	def run(self, doc):
 		"Find all images and append to markdown.images"
 		for element in doc.iter():
 			if element.tag == 'p':
-				pass
-				# self.md.images.append(element.text)
+				if element.text:
+					self.md.text.append(element.text)
 			elif element.tag == 'img':
 				# element.set('width', '42')
-				self.md.images.append(('img', element.get('src')))
+				self.md.images.append(element.get('src'))
 
 class ImgExtExtension(Extension):
 	def extendMarkdown(self, md, md_globals):
@@ -37,29 +38,28 @@ foo = markdown.Markdown(extensions=[ImgExtExtension()])
 if sys.platform == 'ios':
 	mddoc = workflow.get_input()
 	bar = foo.convert(mddoc)
+
+	templatefile = clipboard.get()
+
+	template = Template(templatefile)
+
+	workflow.set_output(output)
+
+	clipboard.set(output)
 else:
 	bar = foo.convert(open('foo.md', 'r').read())
 
-templatefile = clipboard.get()
-print(templatefile)
-template = Template(templatefile)
-#template = Template(open('template.html').read())
+	template = Template(open('template.html').read())
 
 f = open('site.html', 'w')
 
-print(type(template))
-output = template.render(content=foo.images)
+output = template.render(content=zip(foo.images, foo.text))
 
-print('hi')
-print(type(output))
+f.write(output)
 
-#f.write(output)
+f.close()
 
-#f.close()
 
-workflow.set_output(output)
-
-clipboard.set(output)
 
 # import boto3
 

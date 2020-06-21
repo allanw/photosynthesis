@@ -6,7 +6,7 @@
 
 		<title>{{sitetitle}} - {{gallerytitle}}</title>
 		<link href='https://fonts.googleapis.com/css?family=Lato:300,100' rel='stylesheet' type='text/css' />
-		<link type="text/css" rel="stylesheet" media="all" href="{{basepath}}global.css" />
+		<link type="text/css" rel="stylesheet" media="all" href="global.css" />
 		<script src="{{basepath}}json.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="{{basepath}}cookie.js"></script>
@@ -20,9 +20,13 @@
 <div id="sidebar">
 	<div class="foreground">
 		<div id="profile" class="camera icon"></div>
-		<h1>{{sitetitle}}</h1>
+		<h1>{{sitetitle}}Al's Adventures</h1>
 		<ul id="nav">
-			{{navigation}}			 
+			{{navigation}}
+			<li>New Zealand</li>
+			<li>Australia</li>
+			<li>Japan</li>
+			<li>South Korea</li>
 		</ul>
 	</div>
 	
@@ -70,10 +74,16 @@
 </div>
 
 <div id="main">
-	{% for text, image in content %}
-	{{ image }}
+	{% for image, text in content %}
+	<div class="slide">
+		<div class="post">
+			<div class="content">
+				<p>{{text}}</p>
+			</div>
+		</div>
 		<img src="{{image}}" width="100%" />
-	{% endfor %}
+		{% endfor %}
+	</div>
 	
 	<div id="comments">
 	<div id="disqus_thread"></div>
