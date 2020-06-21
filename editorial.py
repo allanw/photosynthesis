@@ -42,6 +42,8 @@ if sys.platform == 'ios':
 	templatefile = clipboard.get()
 
 	template = Template(templatefile)
+	
+	output = template.render(content=zip(foo.images, foo.text))
 
 	workflow.set_output(output)
 
@@ -50,14 +52,20 @@ else:
 	bar = foo.convert(open('foo.md', 'r').read())
 
 	template = Template(open('template.html').read())
+	
+	output = template.render(content=zip(foo.images, foo.text))
 
-f = open('site.html', 'w')
+#f = open('site.html', 'w')
 
-output = template.render(content=zip(foo.images, foo.text))
+print(template)
+print(foo.text)
 
-f.write(output)
 
-f.close()
+
+
+#f.write(output)
+
+#f.close()
 
 
 
